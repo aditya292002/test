@@ -84,17 +84,30 @@ if st.button('Load CSV files'):
     else:
         st.write("Please provide a valid directory path containing CSV files")
 
-if st.button('Ask a question'):
-    question = st.text_input('Ask a question')
+# if st.button('Ask a question'):
+#     question = st.text_input('Ask a question')
 
-    if os.path.isdir(csv_dir):
-        dfs = read_tables_from_sqlite(db_name)
-        answer = asyncio.run(answer_question(question, dfs))
-        ic(answer)
-        st.write(answer)
+#     if os.path.isdir(csv_dir):
+#         dfs = read_tables_from_sqlite(db_name)
+#         answer = asyncio.run(answer_question(question, dfs))
+#         ic(answer)
+#         st.write(answer)
         
+#         for (table_name, column_name), result in answer.items():
+#             st.write(f"Results for {table_name} - {column_name}")
+#             st.write(result)
+#     else:
+#         st.write("Please provide a valid directory path containing CSV files")
+
+with st.form("my_form"):
+    question = st.text_input("Enter your question")
+    submit_button = st.form_submit_button("Submit")
+
+    if question and submit_button:
+        dfs = read_tables_from_sqlite(db_name)
+        answer = answer_question(question, dfs)
+        st.write(answer)
+
         for (table_name, column_name), result in answer.items():
             st.write(f"Results for {table_name} - {column_name}")
             st.write(result)
-    else:
-        st.write("Please provide a valid directory path containing CSV files")
